@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Loading and preprocessing the data</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h2>Loading and preprocessing the data</h2>
+
+<p>The row data was in a zip located in the file called &ldquo;./RepData_PeerAssessment1/data&rdquo; in the working directory and it was read by the following code:</p>
+
+<pre><code class="r">unzip (&quot;./data/activity.zip&quot;, exdir=&quot;./data&quot;)
+datas&lt;-read.csv(&quot;./data/activity.csv&quot;, sep=&quot;,&quot;, header=TRUE)
+</code></pre>
+
+<p>The variables included in this dataset are:<br/>
+steps: Number of steps taking in a 5-minute interval (missing values are coded as NA)<br/>
+date: The date on which the measurement was taken in YYYY-MM-DD format<br/>
+interval: Identifier for the 5-minute interval in which measurement was taken<br/>
+The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset, as it is shown:  </p>
+
+<h4>Summary of Original Data</h4>
+
+<pre><code class="r">summary(datas)
+</code></pre>
+
+<pre><code>##      steps                date          interval     
+##  Min.   :  0.00   2012-10-01:  288   Min.   :   0.0  
+##  1st Qu.:  0.00   2012-10-02:  288   1st Qu.: 588.8  
+##  Median :  0.00   2012-10-03:  288   Median :1177.5  
+##  Mean   : 37.38   2012-10-04:  288   Mean   :1177.5  
+##  3rd Qu.: 12.00   2012-10-05:  288   3rd Qu.:1766.2  
+##  Max.   :806.00   2012-10-06:  288   Max.   :2355.0  
+##  NA&#39;s   :2304     (Other)   :15840
+</code></pre>
+
+<p>In order to know how important are the missing values in the data set, we calculate the porcentage of NA´s. </p>
+
+<pre><code class="r">    wherena&lt;-which(is.na(datas$steps))
+    manyna=length(which(is.na(datas$steps)))
+    manyda=length(datas$steps)
+    porcent=round((manyna/manyda)*100,2)
+</code></pre>
+
+<p>The original dataset has 17568 observations and there are 2304 NA which is 13.11 % of the original data set.  </p>
+
+<p>A new data set without missing values was created and it was called &ldquo;datasnona&rdquo;, which is shown in the following summary.</p>
+
+<pre><code class="r">    datasnona&lt;-subset(datas, datas$steps != &quot;NA&quot;)
+    summary(datasnona)
+</code></pre>
+
+<pre><code>##      steps                date          interval     
+##  Min.   :  0.00   2012-10-02:  288   Min.   :   0.0  
+##  1st Qu.:  0.00   2012-10-03:  288   1st Qu.: 588.8  
+##  Median :  0.00   2012-10-04:  288   Median :1177.5  
+##  Mean   : 37.38   2012-10-05:  288   Mean   :1177.5  
+##  3rd Qu.: 12.00   2012-10-06:  288   3rd Qu.:1766.2  
+##  Max.   :806.00   2012-10-07:  288   Max.   :2355.0  
+##                   (Other)   :13536
+</code></pre>
+
+<p>Then, it was calculated the total number of steps taken per day . Also, it was calculated the mean and the median of the total number of steps taken per day without taken account for the missing value and shown in the following summary.</p>
+
+<h4>Summary of Total Steps By Day w/o NA</h4>
+
+<pre><code class="r">    databyday&lt;-aggregate(datas$steps, list(date=datas$date), sum)
+    summary(databyday)
+</code></pre>
+
+<pre><code>##          date          x        
+##  2012-10-01: 1   Min.   :   41  
+##  2012-10-02: 1   1st Qu.: 8841  
+##  2012-10-03: 1   Median :10765  
+##  2012-10-04: 1   Mean   :10766  
+##  2012-10-05: 1   3rd Qu.:13294  
+##  2012-10-06: 1   Max.   :21194  
+##  (Other)   :55   NA&#39;s   :8
+</code></pre>
+
+<pre><code class="r">    mean&lt;- mean(databyday$x, na.rm=TRUE)
+    median&lt;- median(databyday$x,na.rm=TRUE)
+    nadatabyday&lt;-length(which(is.na(databyday$x)))
+</code></pre>
+
+<p>In order to know the influence of missing values in results, it was used an strategy of create a new dataset called &ldquo;datanew&rdquo; where it was filling out the missing value with the mean of the total steps taken by interval, removing missing values. </p>
+
+<h4>Summary of New Data Set with NA replaced</h4>
+
+<pre><code class="r">    datanew&lt;-datas
+    datanew$steps[is.na(datanew$steps)]&lt;- tapply(datanew$steps,
+                          datanew$interval,mean, na.rm=TRUE)
+    summary(datanew)
+</code></pre>
+
+<pre><code>##      steps                date          interval     
+##  Min.   :  0.00   2012-10-01:  288   Min.   :   0.0  
+##  1st Qu.:  0.00   2012-10-02:  288   1st Qu.: 588.8  
+##  Median :  0.00   2012-10-03:  288   Median :1177.5  
+##  Mean   : 37.38   2012-10-04:  288   Mean   :1177.5  
+##  3rd Qu.: 27.00   2012-10-05:  288   3rd Qu.:1766.2  
+##  Max.   :806.00   2012-10-06:  288   Max.   :2355.0  
+##                   (Other)   :15840
+</code></pre>
+
+<p>With these new data set it was calculated again the mean and the median of the total steps taken by day. The summary of results for the new dataset is calculated as follow.</p>
+
+<h4>Summary of Total Step by Day w NA replaced</h4>
+
+<pre><code class="r">    databydaynew&lt;-aggregate(datanew$steps,list(date=datanew$date),sum)
+    wherenanew&lt;-which(is.na(datanew$steps))
+    manynanew&lt;-length(which(is.na(datanew$steps)))
+    manydanew&lt;-length(datanew$steps)
+    meannew&lt;- mean(databydaynew$x)
+    mediannew&lt;- median(databydaynew$x)
+    summary(databydaynew)
+</code></pre>
+
+<pre><code>##          date          x        
+##  2012-10-01: 1   Min.   :   41  
+##  2012-10-02: 1   1st Qu.: 9819  
+##  2012-10-03: 1   Median :10766  
+##  2012-10-04: 1   Mean   :10766  
+##  2012-10-05: 1   3rd Qu.:12811  
+##  2012-10-06: 1   Max.   :21194  
+##  (Other)   :55
+</code></pre>
+
+<p>The new data set was included with a new column called &ldquo;whichday&rdquo; to register if the date is refering to a &ldquo;weekend&rdquo; day or a &ldquo;weekday&rdquo;.
+This dataset is called &ldquo;datasnew&rdquo;.  </p>
+
+<h4>Summary of New Data Set with new column whichday (weekend/weekday)</h4>
+
+<pre><code class="r">library(dplyr)
+    datasnew&lt;- datanew
+    datasnew$date&lt;-as.Date(datasnew$date)
+    datasnew&lt;-mutate(datasnew, 
+    whichday=factor(1*(weekdays(date)==&quot;Saturday&quot;| 
+    weekdays(date)==&quot;Sunday   &quot;),labels=c(&quot;weekday&quot;,&quot;weekend&quot;)))
+    summary(datasnew)
+</code></pre>
+
+<pre><code>##      steps             date               interval         whichday    
+##  Min.   :  0.00   Min.   :2012-10-01   Min.   :   0.0   weekday:15264  
+##  1st Qu.:  0.00   1st Qu.:2012-10-16   1st Qu.: 588.8   weekend: 2304  
+##  Median :  0.00   Median :2012-10-31   Median :1177.5                  
+##  Mean   : 37.38   Mean   :2012-10-31   Mean   :1177.5                  
+##  3rd Qu.: 27.00   3rd Qu.:2012-11-15   3rd Qu.:1766.2                  
+##  Max.   :806.00   Max.   :2012-11-30   Max.   :2355.0
+</code></pre>
+
+<h2>What is mean total number of steps taken per day?</h2>
+
+<p>The mean total steps taken per day without taken account missing values is 1.0766189 &times; 10<sup>4</sup>. Replacing NA by the mean of total steps by day, by interval and calculating again the mean does not change. However the median changes slightly from 10765to 1.0766189 &times; 10<sup>4</sup>. The values are summarized in Table 1.  </p>
+
+<h4>Total Steps by Day(Mean,Median comparing NA replaced and without NA)</h4>
+
+<pre><code class="r">   library(xtable)    
+    table1 &lt;- matrix(c(mean,median,meannew,mediannew),ncol=2,byrow=TRUE)
+    colnames(table1) &lt;- c(&quot;Mean&quot;,&quot;Median&quot;)
+    rownames(table1) &lt;- c(&quot;Original Dataset&quot;,&quot;Dataset with NA replaced&quot;)
+    xtable1&lt;-xtable(head(table1),caption=&quot;Table 1. Total Steps By Day&quot;)
+    print(xtable1, comment=FALSE, type=&quot;html&quot;, caption.placement=&quot;top&quot;)
+</code></pre>
+
+<table border=1>
+<caption align="top"> Table 1. Total Steps By Day </caption>
+<tr> <th>  </th> <th> Mean </th> <th> Median </th>  </tr>
+  <tr> <td align="right"> Original Dataset </td> <td align="right"> 10766.19 </td> <td align="right"> 10765.00 </td> </tr>
+  <tr> <td align="right"> Dataset with NA replaced </td> <td align="right"> 10766.19 </td> <td align="right"> 10766.19 </td> </tr>
+   </table>
+
+<h4>Total Steps by Day (Histogram comparing NA replaced and without NA)</h4>
+
+<p>The following figure shows the histogram of the mean of total steps taken by day in both dataset, original and new with missing values replaced.</p>
+
+<pre><code class="r">    par(mfrow=c(2,1), mar=c(3,4,2,2), oma=c(0,0,0,0))
+    xname&lt;-&quot;Figure 1. Total Steps by Day - w/o-NA&quot;
+    colors = c(&quot;red&quot;) 
+    histwoNA&lt;-hist(databyday$x, breaks=20,
+    freq = TRUE, include.lowest = TRUE, right = TRUE,
+    main = paste(xname, &quot;- Histogram&quot;),
+    xlab = xname, ylab=&quot;Frequency&quot;, ylim=c(0,20),
+    axes = TRUE, plot = TRUE, 
+    col=colors,
+    warn.unused = TRUE)
+    xname&lt;-&quot;Figure 2. Total Steps by Day - w-NA replaced&quot;
+    colors = c(&quot;green&quot;) 
+    histwNArep&lt;-hist(databydaynew$x, breaks=20,
+    freq = TRUE, include.lowest = TRUE, right = TRUE,
+    main = paste(xname, &quot;- Histogram&quot;),
+    xlab = xname, ylab=&quot;Frequency&quot;,ylim=c(0,20),
+    axes = TRUE, plot = TRUE, 
+    col=colors,
+    warn.unused = TRUE)
+    mtext(&quot;Steps By Day&quot;, side=1, line=2, cex=0.7,las=0)
+</code></pre>
+
+<p><img src="figure/figure1&amp;2-1.png" alt="plot of chunk figure1&amp;2"/> </p>
+
+<pre><code class="r">##    dev.copy(png, file= &quot;./figures/plotfigure1-2.png&quot;)
+##    dev.off()
+</code></pre>
+
+<h2>What is the average daily activity pattern?</h2>
+
+<p>The average daily activity pattern is shown in Figure 2 and it was calculated with the mean by 5-min.interval, in all dates exiting in original data set without missing values (&ldquo;datasnona&rdquo;). </p>
+
+<h4>Times Series averaging for 5 min-interval</h4>
+
+<pre><code class="r">      dataaveint&lt;-aggregate(datasnona$steps,
+      list(interval=datasnona$interval),mean)
+      par(mfrow=c(1,1), mar=c(3,4,2,2), oma=c(0,0,0,0))
+      y&lt;-dataaveint$x
+      plot(y, type=&quot;n&quot;, xaxt=&quot;n&quot;, ann=FALSE)
+      lines(y, type=&quot;l&quot; )
+## Adding labels
+      xx=c(&quot;00:00&quot;,&quot;02:00&quot;,&quot;04:00&quot;,&quot;06:00&quot;,&quot;08:00&quot;,&quot;10:00&quot;,&quot;12:00&quot;,
+          &quot;14:00&quot;,&quot;16:00&quot;,&quot;18:00&quot;,&quot;20:00&quot;,&quot;22:00&quot;,&quot;24:00&quot;)
+      axis(1, at=seq(0, 288, by=24),labels=xx,lwd=0,lwd.ticks=1,
+      las=0, pos=0,cex.axis=0.8, 
+      mtext(&quot;Figure 3. Patern of Steps by Day&quot;))
+      mtext(&quot;Average Steps by Day&quot;, side=2, line=3, cex=0.7,las=0)
+      mtext(&quot;Time (hour:minute)&quot;, side=1, line=2, cex=0.7,las=0)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAt1BMVEUAAAAAADoAAGYAOjoAOmYAOpAAZpAAZrY6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZrY6kJA6kNtmAABmADpmAGZmOgBmOjpmOpBmZjpmZmZmZrZmkJBmkLZmkNtmtv+QOgCQOjqQOmaQZgCQZpCQkDqQkGaQkLaQkNuQ27aQ29uQ2/+2ZgC2Zjq2Zma2tma225C2///bkDrbkGbbtmbbtrbb/7bb/9vb////tmb/25D//7b//9v///84vtWJAAAACXBIWXMAAAsSAAALEgHS3X78AAAURElEQVR4nO2diXrjthVG4UlcuWk7qRy3k0wbOdN0tdLWmraxFr7/c5XgvgASNoIg//98yUgiiHshHIEAJcoSGYFEzN0AMg8UDwrFg0LxoFA8KBQPCsWDQvGgUDwoFA8KxYNC8aBQPCgUDwrFg0LxoCxR/OlB5GxPX71e3e0oxLvXfpUmwvWql+di1/NjEeHazvvduGE73c5JsUjxN4y3ex023Srnb17MIpTF58dc4eH+zUJ8keVxEeYXLF7e5IPyy9+/yHv5/6ff/O7da76lGeet4OLO5XlXDMpdsU+5o6zz7/d/qsdpXXL30rxY/t7ufH76c1HSHkv238mauf7T+7c6nbxbpGm2p8jCxe+32fGuEf+Q28u3NON8MOJPv3yRg17uWVbNi2Wd00Me5b4QtC/ulQkuz+W2dufz4/3bMX8VPDXHkn2x8zGvtW0alueo0tTbU2SR4uVUupE9KxVcfmjEy0NA3uVya7nf3Uu3Sj2qn+Se1Y5V1drZUxGhPlDkI/uuMFjtLI/iebp2yigO9fvd+cPbT3JT9YL54aVKU29PkUWKb0a8PJAOxOcLMtH4bhS18/ReHqaly3LHvnj5bxWvzvXLl3bnIty+mC+qFD8VGy4//P3DW9YZ8VWaenuKLFu8YsQ/9VZi9eKrVinHbLlnteOVEX/clBHanaXSajzXU8OuWDkcvtu2WfKiKk29PUWWLb6a46WQQzGO61k6K9WMRnzhuBjEnem8Fd+b44vlefUyKLefHzfyRkauxW/qkE2WWrrcVm1PkYWLz4/Bv8iH4EGI35bzdVYtyXMO9QyddQ71+cYvf7e7PNdr94H4aqnfPJC7tDufv/m2CL7vrurlhsunskXNSqJMU29PkSWK72N2Vh+Ezqpu0Iav7bYnwLLFX547K7np0Yk/aNqg254C7uIFSZ2JxDvXJHGgeFAoHhSKB4XiQaF4UCgeFIoHheJBoXhQKB4UigeF4kGheFAoHhQ48em2LC4UDwrFg+InvrxytPN9NOOas5Fuy+LiJV5+XUBSXUduUXM+0m1ZXLzE199MGXxDxaDmfKTbsrjgjfh0mxYVvzm++L7gwub4dJsWFbxVfbpNiwrFg4J3Opdu06LCxR0ooU/nTL6ZNSsJNy0qHPGg8HQOFK7qQcETn3DbYuJ9Oif/rsOy3qtPt20x8V7cXZ63FL9AApzO7TcUvzxCnM4dvhj9bal0O5fiS3xP54o/zngYnc+l27kUX8JVPSgUDwrFg0LxoFA8KBQPCpp4kXDbokLxoFA8KBQPCsWDQvGgUDwoFA8KxYMCKD7dxsWE4kGheFAoHhSKB4XiQaF4UCDFJ9u6iFA8KBQPCsWDQvGgUDwoFA8KxYNC8aAgik+4efGgeFAoHhSKB4XiQaF4UCgeFIoHheJBoXhQKB4UigeF4kGheFAoHhQo8YLiGzDFJ9q+mFA8KBQPCsWDQvGgUDwoFA8KlnhB8TUUDwqY+LpdabYvJhQPCsWDQvGgIIkXGcU3UDwoFA8KxYNC8aBQPCgUDwrFg0LxoFA8KFjiM4qvoXhQKB4UigeF4kGheFAoHhSKB8VP/OlBSN69WtecA6G5D4mX+Mvzrrg93r9Z1pwFiu/gJf789Nq7Na85CxTfgSMeFL85/vzIOX6hgK3qlfchoXhQvBd38mg/muLT7FeK7+ArvljQn762rTkLFN/BV/zp/VvvdE5UBGlcYCi+g5/4x7t/fJIj/j1P55aG5+Lu8iw22ZGnc8uDq3pQKB4UigeF4kHxXNVXJ2+j1V2S/UrxHfxG/OV561hzDii+g+eh/vzNi2PNGaD4DpzjQaF4UCgeFCDxQvsAEYoHheJBoXhQKB4UigeF4kGheFAoHhSKB4XiQaF4UCgeFIoHheJBoXhQKB4UigeF4kGheFBQxSfZwphQPCgUDwrFg0LxoFA8KBQPCsWDQvGgUDwoFA8KxYNC8aBQPCgUDwrFg0LxoFA8KBQPCsWDQvGgmIg//y1s2Jmg+C5GI/6g+PVYj7AzQfFdDA/18icJNH+a3j7sTFB8FzPxe/krov8d/ZCoY9iZoPguRnO8+qfCncPOBMV3MRL/4X8fzx8sxnua3SquPkTDTPzPn17/ubIRn2QTI2K2qt8dxCZc2Jmg+C6wb+Ak2cSImIg/PQhxp/61KaewM0HxXQzEX+QvhXNxtzIMxJ8/yn+5uFsXJuIf13gen2QTI8LFHSgUDwrFg4LzefywSQk2MSY4n8dTfA+cz+MpvgfO5/GjJiXYxogYzfHyRH4XLuw8UHwPs49l38r3bQOFnQeK72Ei/vLjW/F/qLDzQPE9cN6ypfgeOG/gUHwPigeF4kExEr9fwzV3FN/D6HROXly9+Asxxk1KsJHxMBvxYrdf34hPsZHxMBJ/XOU7dyk2Mh7A79yl2Mh4GL1zl0tf4Tt3KTYyHsYf0ti9d5dgnyqalGAro+F3Hi+/aqF8SSTYpRTfw/AKnM1Rtaq/PJdLvuP9cB5IsEspvofhefxH5Rcqzk+vvVvDsPNA8T2MxMsD+p1CPEf8cjEQfyzm8ZFbiXbZl2CXUnwPs0N92LDzMKv49PrDRPzx/ufnNb5zF7GZ6fWHgfjLp9fjVv0GzsJP56I1U6TXHyaXXn3MDjvlqn7pizuKv1p4+fHnT6/KP4ygOJ0TFSHbGAaK72Eyxx/E9vyomuM54k1zWyaK0C6/t2wXfjoXq5nCNlHy4ieoORkUb56C4kOlXqh43Yc0jmHnQdmkOO1cqnjthzSOYeeB4s1TtCNe/e34am2nWN1RfD/LMsVXfhUndJdnzV9LoPh+Frs8MU77ja65K74t+7PqcsvzN+o/dUrx/SzLFF9dZWszy69RvM85zjLFl9fVW63rKb5fc6Hi96v8frx2oy6A85Naqvh1/DQJxfdzGBSu46dJAhzqXZ+VsOwQ90w2OQwKV/HTJBQ/yHG7cLXX3FH89cLiDRz4xZ2tPY+qqYgPHXYe5hMv7BJRfFgofpDDoJAfy2aQ4vmxbLUrmnjtx7KOYedhOeI9lpFWSRwL3cPOA8UPk9wszE/n7MY7xY+SLFJ8Zv/jJBQ/SLJI8fmIt1vTU/woySLFSw4c8YDi97aLeoofJrEUP30HGoiX35v7bPcr4hQ/TGJWVbT/Tt2DhiPe8ufjKX6YxFr81F1oOMdfnjnHQ4oPGnYeKF6RyqXQPewsqFtE8faF7mFnYQniBcWHh+IHuZwL3cPOAsUPcjkXuoedhcWJn7gPwcVbNJTivcPOAsUPcjkXuoedheWIr3el+CAkKr63neIngOKvJLYqdA87CyHEOz4tip+TBYgvr6oWFB8Uitcntit0DzsLFK9PbFfoHnYWfMX3pl/71Lr0FD81FD9ulFuhe9hZSFh8a1rU9t2T2TTKrdA97CwkIF5Rm+InZz7xTU1D8dZNcwJFvO4viM0tvuua4idgbvF9p50yip8Wile2yqXQPewcLEN8Jig+MBSvbJVLoXvYOaB4ZatcCt3DzgHFK1vlUugeNjbFqVSS4suNddtEv5kU70si4hVNoPhJoXhtq1wK3cPGJhXx4+oUPyki0zcoYfHTdiLFWwRp97Z5frfEN9spPjAUr22VS6F72NgkLV66Ft0HDm1zgeItglC8X9jYULy2VS6F7mFjI660h+KtC93Dxobita1yKXQPOxXaw/mVX3yIJ17x8hO91o1mJIr3TErx2la5FLqHnYopxYvOvxbV+lUpfhoo3rpVLoXuYaciafGqWu2yr35E8S45NUmV6+m20DB4f2/l+vx2CqEqoXhPnMQbtlQMdh7lMkugEd+uHCneJecSxCvMUrwnFG8DxZvFHuwcUnzWEe/QNEco3iz2YGdX8YLiwzOveLPzBoqfgCvXU+q1BBJvesJI8RNA8TasSbwm62i1PCo1iT24FcPtZuK7j8Qt8ZP24nrEC2VW9db+DmbBu7fd6yP7G24l6IoX/a0U75yS4s2heNPg3VuKD1/TJ+VoxaW8/GG0k1nw6lZ0bqYWP2U3Urxp8OpWJV4okmsSdGQvWfzpQUjGvzubgngxhXgRTny2XPGX511xe7x/s6w5Af7i9Ts2JSPx7UMk8een196tec0JEEP3Qlw30lRT3NXtZC9+PP0095YrPsER3/Mo0hPfCbVg8dn5MZk5XmQD8SKbQnx/cdd9CCV+gpo+GcXgFGl0ENDU69W4upNGvMjgxYsK1/Y4oxV/qynDGurAzYOA4gcbFyReLurk0X40xScy4ouboOIzvXjNc16r+GJBf/ratmZ4euI7smzEKw8PscSrqics/vT+LY3TuRTEm7gTqu2LE/94949PcsS/n/90biBkavG9fHDi5Zm82GTHVE7nWvGtBHPxmmvz/MSPNq1EfPiaXhn9xY/3NhGfdR6og4+2UHwgRPcmrvgmNcWnJN6wok788Bx9IL65mw0vmtckr+cGig9ET3RI8R21bXyVeGVlZbrRauKm+PD9uVLxrYQQ4sVwdz/xYryroHjXdEHEK6bpacQPSzTizY9b1qxPvBCjI+mtuvWdcOI7bySpm0rxQej3vo12E/Gj6bjM1yzpx+K7bySpm0rxQRiIt8puKb61PRKfWYg32krxBukCiR+1fPRaaMWLW+I1Ll3EB+/QVYgXgcSr+t9GfGfup/gY9MTb9tJN8eMNopPTXrxqK8U7ZhPRxWcUH7amW7bugtoye7MMsxfffTgoo/gYJCRe3BSv3Ko7A62fDcVrss0gXvWQ4ucTb529ezqueNVQfLiwwQkmXlE5vHh9I1TbKf5qNj/xQi9+HGoa8ZpdKf5GtlTE975wYdGMq+IFxWuzeXSMqHs2qHjVOvFaIyjeLVsq4rNWvNVnhDfFB+9Rii/f9tNdrGUgXozLCvE2bdLtSvE3siUiPuuKt2uEfrvJl73tWYl4n4TlpRv9t4Ay5YNqi7jy0HEdTvGu2ZIRXzcmzHKM4m9lm0287oLZYOKrjx4pXp0tPfHuDRoGa8UH7FaKp3jLQvewwQkvXv0qqLbEFt9eYXSlWQ6RHQvdwwbHU3ymEK88t6u2UPwUNeNnG4qvu1oTmuKnqRk/W9mzA/F1TIoPGDY4IcRnSvGKyBQ/Tc342dTitctoQ/FhGIrXz0AOkR0L3cMGJ6r44bZ5xHunWIN4z2QK8fWxWncp9LXsFB8Nf/FZquLLtlD8JMlG4rPmS3GJiM+64vuvAI/AroXuYUMznXijOX5cTPFxCCO+uyVB8c3UIzJdwywDuxa6hw3NVOLN4kYU33xaQ/Ehko3FW3XuxOJF2572IETxIZJpxJvOozHEt3EpPmwy5VzuGDfoFbEj8VbT0LXAzoXuYUODJV6/6rQL7FzoHjY0U4l3jhVLvE8eiteGSFq8amViF9i50D1saFYtvnuvmd4pPlSyRYr3evuO4rUhnMWHfPIUn0qy20wrPuu698hE8cEJ/132MmwrXmQUHz3ZbSYXn1H8DMkMmKg9/asDKB5G/DCJ8MpE8eGh+Dik5j1SgwTFR8xlBMVHITnvkfB8z5bil0or3qkHKH7RFPYpHg+KB8X9bRyKXzQUDwrFg0LxoFA8KPUVGU41HQvdw4aF4jHFQ3tvr8axr+hc6B42KBRP8YiMxRt2CMUvm5F40zdwKX7hUDwoPfGC4mEonn99Aa4wvyyH4tcBxYNSX4tD8WCI5h+Kh4LiQYETT+8V7WndSL+yjxYmfhSX4ivaVd1QvPrMnuJXQmc5X53atyWqTlqa+N6P7zl+FL1KOnpF76Gmk5Yjvn4dt+K9fj18bYzE152TgngvTfXrWHT/uDTF1/R/Pq3tnM5yv7//1WDuzVA+FsNW3Fx3DJYoovqFOB7jx0QVf3oQknevt2o2B+fBS1PjuJmfRGdTPamLQUUyoBkW7Vw47jAv8ZfnXXF7vH+7VbOddwa/udDs0J2iRLNNtFcaULwpzc8lKnq33edqgOucn157t0WGkmGcZmN1P6sei7ZC527WDdLU1P3Ut8Gh6dYOvuVpJWjH+WiTWbxQI35Z3YaRwG+OPz8azfHr67blJ4iyql9fty0/AcWDJqB40AQUD5qA4kETRBFP0oPiQaF4UCgeFIoHheJBoXhQKB6UqcST1JlGPFk0FA8KxYPiIX4v7l7qf8cPjQNk2WHrFcCjBfJKwsuzEOV1Zfb1y0sRD0Js3BpQ5XZ+Bk3b7bvQXfzx/q35b/zQOEB+K7aKeFFaIK8oO+bS9jun+t4Byqruz6BO7dCF7uLzF1n+ei//PX946z60CZCd3v8nv+Me4PT+LX/+LgEuf718Kvc87JwaUAY4fCdHvFOAMrdHHxb1nbrQQ/wuy592+e/4oXGAvI3HrSKecYD85V6+vu0D1HseN471i133m6KuWwCZ26MPi/pOXRhmxI8fmgeQJ5xbnwCb7PSVWwuqDtpvVE/IOICUfnR7BmVujz4s67t0YQJzfNlrzgGa5+kwR0tv9TcHXOqXR5x6xNsHKHO792Hb9ohzfHcJmc8vHqv649YngFzZ7hwDFEfqYry41S8PGQc53pwClLnd+3Bfj3X7LuR5PCgUDwrFg0LxoFA8KBQPCsWDQvGgUDwoFA8KxYNC8aBQPCgUDwrFg0LxoFA8KBQPCsWDQvGgUDwoFA8KxYNC8aBQPCg44uU3bsSm/K5Rw+n7z+ovnbT7Fd+OyjS7LRcc8bn6H99yoZ+/vfuL2J4e5NeM8i2fvxU7+eDzy+n746/f/WtXluf7/Urs8o1/eHz377xY1l0VeOIP2+Pm/PGnl9PXcsBn+cOtfFCIL79yKsvz/Xa5/HzjYVfsu7Yhjyf+88txe/64L/58yXGXCz398dPr+WMjviwvpZfii32Pu7mbHxZU8T+V39MtxH8vh7Qc4CPxcqMc8eWuqwJV/OlBfr04P9RLv3KOP4ov5Ig/7rrii435HJ/vy0P9mjBfsnFxty7yIW/G2gZ89n80iXUGsM5ZrAAAAABJRU5ErkJggg==" alt="plot of chunk figure3"/> </p>
+
+<pre><code class="r">##    dev.copy(png, file= &quot;./figures/plotfigure3.png&quot;)
+##    dev.off()
+      max&lt;-subset(dataaveint, dataaveint$x == max(dataaveint$x))
+      max
+</code></pre>
+
+<pre><code>##     interval        x
+## 104      835 206.1698
+</code></pre>
+
+<p>As you can see, the 5-minute.interval with the maximum average number of steps, across all days in the data set occurs in interval 835 with a value of 206.1698113.</p>
+
+<h2>Imputing missing values</h2>
+
+<p>The total number of missing values is 2304, which represents 13.11of the original data registers.
+When missing values are imputed with a strategy of filling them with the average number of steps per day per interval, the results are almost
+not affected, since the mean changes from 1.0766189 &times; 10<sup>4</sup> to 1.0766189 &times; 10<sup>4</sup> and the median changes from 10765to 1.0766189 &times; 10<sup>4</sup> . (Table 1). That means the median take the same value that the mean</p>
+
+<p>In Figure 1 you can see the histograms of the two cases, without NA´s and with NA´s replaced with the strategy mentioned before. Additionally, it is illustrative to know the breaking and counting elements of the histograms of average total steps by day, without NA´s and with NA´s replaced, which is shown in the following summary.</p>
+
+<pre><code class="r">      histwoNA$breaks
+</code></pre>
+
+<pre><code>##  [1]     0  1000  2000  3000  4000  5000  6000  7000  8000  9000 10000
+## [12] 11000 12000 13000 14000 15000 16000 17000 18000 19000 20000 21000
+## [23] 22000
+</code></pre>
+
+<pre><code class="r">      histwoNA$counts
+</code></pre>
+
+<pre><code>##  [1]  2  0  1  1  1  2  1  2  5  2 10  6  6  4  2  5  0  1  0  0  1  1
+</code></pre>
+
+<pre><code class="r">      histwNArep$breaks
+</code></pre>
+
+<pre><code>##  [1]     0  1000  2000  3000  4000  5000  6000  7000  8000  9000 10000
+## [12] 11000 12000 13000 14000 15000 16000 17000 18000 19000 20000 21000
+## [23] 22000
+</code></pre>
+
+<pre><code class="r">      histwNArep$counts
+</code></pre>
+
+<pre><code>##  [1]  2  0  1  1  1  2  1  2  5  2 18  6  6  4  2  5  0  1  0  0  1  1
+</code></pre>
+
+<p>The results in Figure 1 and the histograms counting shown above, evidence that diferences are only in the frecuence of steps for the 5-min interval that contain the mean, which increases due to the 8 missing values that now are accounting with the same value that the mean.</p>
+
+<h2>Are there differences in activity patterns between weekdays and weekends?</h2>
+
+<p>With the data set called &ldquo;datasnew&rdquo;, which was gotten adding a new column called &ldquo;whichday&rdquo; to the data set already modified with NA replaced (&ldquo;datanew&rdquo;&ldquo;), we can compare the patterns between weekdays and weekend. In order to do so, the data set was split in two parts. </p>
+
+<pre><code class="r">      dataaveint1&lt;-aggregate(datasnew$steps,
+                  list(interval=datasnew$interval,
+                  whichday=datasnew$whichday), mean)
+      dataaveint1$sec&lt;-c(1:576)
+      dataaveint1$sec&lt;-as.numeric(dataaveint1$sec)
+      summary(dataaveint1)
+</code></pre>
+
+<pre><code>##     interval         whichday         x                sec       
+##  Min.   :   0.0   weekday:288   Min.   :  0.000   Min.   :  1.0  
+##  1st Qu.: 588.8   weekend:288   1st Qu.:  1.436   1st Qu.:144.8  
+##  Median :1177.5                 Median : 25.565   Median :288.5  
+##  Mean   :1177.5                 Mean   : 39.665   Mean   :288.5  
+##  3rd Qu.:1766.2                 3rd Qu.: 58.230   3rd Qu.:432.2  
+##  Max.   :2355.0                 Max.   :255.139   Max.   :576.0
+</code></pre>
+
+<pre><code class="r">      dataaveint2&lt;-subset(dataaveint1, dataaveint1$whichday== &quot;weekday&quot;)
+      dataaveint3&lt;-subset(dataaveint1, dataaveint1$whichday== &quot;weekend&quot;)
+</code></pre>
+
+<p>The plotting was draw with the same scale, in the same window with two rows.</p>
+
+<pre><code class="r">##Making the plot
+      par(mfrow=c(2,1), mar=c(3,4,2,2))
+      y&lt;-dataaveint2$x
+      plot(y, type=&quot;n&quot;, xaxt=&quot;n&quot;, ann=FALSE, ylim=c(0, 250))
+## Adding lines
+      lines(y, type=&quot;l&quot; )
+## Adding labels
+      xx=c(&quot;00:00&quot;,&quot;02:00&quot;,&quot;04:00&quot;,&quot;06:00&quot;,&quot;08:00&quot;,&quot;10:00&quot;,&quot;12:00&quot;,
+      &quot;14:00&quot;,&quot;16:00&quot;,&quot;18:00&quot;,&quot;20:00&quot;,&quot;22:00&quot;,&quot;24:00&quot;)
+      axis(1, at=seq(0, 288, by=24),labels=xx,lwd=0,lwd.ticks=1,
+      las=0, pos=0,cex.axis=0.8, 
+      mtext(&quot;Figure 4. Patern of Steps by WeekDay&quot;))
+      mtext(&quot;Average Steps by Day&quot;, side=2, line=3, cex=0.7,las=0)
+      yy&lt;-dataaveint3$x
+      plot(yy, type=&quot;n&quot;, xaxt=&quot;n&quot;, ann=FALSE, ylim=c(0,250))
+## Adding lines
+      lines(yy, type=&quot;l&quot; )
+## Adding labels
+      xx=c(&quot;00:00&quot;,&quot;02:00&quot;,&quot;04:00&quot;,&quot;06:00&quot;,&quot;08:00&quot;,&quot;10:00&quot;,&quot;12:00&quot;,
+      &quot;14:00&quot;,&quot;16:00&quot;,&quot;18:00&quot;,&quot;20:00&quot;,&quot;22:00&quot;,&quot;24:00&quot;)
+      axis(1, at=seq(0, 288, by=24),labels=xx,lwd=0,lwd.ticks=1,
+      las=0, pos=0,cex.axis=0.8, 
+      mtext(&quot;Figure 5. Patern of Steps by WeekEnd&quot;))
+      mtext(&quot;Average Steps by Day&quot;, side=2, line=3, cex=0.7,las=0)
+      mtext(&quot;Time (hour:minute)&quot;, side=1, line=2, cex=0.7,las=0)
+</code></pre>
+
+<p><img src="figure/figure4&amp;5-1.png" alt="plot of chunk figure4&amp;5"/> </p>
+
+<pre><code class="r">##    dev.copy(png, file= &quot;./figures/plotfigure4-5.png&quot;)
+##    dev.off()
+</code></pre>
+
+<p>As you can see in Figure 4 and Figure 5, there are differents activity patterns for weekdays and weekend. The peak of steps by interval is different from weekdays than weekend.</p>
+
+<pre><code class="r">      max2&lt;-subset(dataaveint2, dataaveint2$x == max(dataaveint2$x))
+      max2
+</code></pre>
+
+<pre><code>##     interval whichday        x sec
+## 104      835  weekday 212.8526 104
+</code></pre>
+
+<pre><code class="r">      max3&lt;-subset(dataaveint3, dataaveint3$x == max(dataaveint3$x))
+      max3
+</code></pre>
+
+<pre><code>##     interval whichday        x sec
+## 400      915  weekend 255.1392 400
+</code></pre>
+
+<p>During the weekdays the peak occurs at 5-min.interval 835 with 212.8526166 steps and during weekend the peak occurs at 5-min.interval 915 with 255.1391509steps. </p>
+
+</body>
+
+</html>
